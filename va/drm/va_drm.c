@@ -58,32 +58,44 @@ va_DisplayContextGetDriverName(
 )
 {
 
+    PRINTF();
     VADriverContextP const ctx = pDisplayContext->pDriverContext;
     struct drm_state * const drm_state = ctx->drm_state;
     drm_magic_t magic;
     VAStatus status;
     int ret;
 
+    PRINTF();
     status = VA_DRM_GetDriverName(ctx, driver_name_ptr);
     if (status != VA_STATUS_SUCCESS)
         return status;
 
+    PRINTF("not skip drm authenticate");
+#if 1
     /* Authentication is only needed for a legacy DRM device */
     if (ctx->display_type != VA_DISPLAY_DRM_RENDERNODES) {
+        PRINTF();
         ret = drmGetMagic(drm_state->fd, &magic);
+        PRINTF();
         if (ret < 0)
             return VA_STATUS_ERROR_OPERATION_FAILED;
 
+        PRINTF();
         if (!va_drm_is_authenticated(drm_state->fd)) {
+            PRINTF();
             if (!va_drm_authenticate(drm_state->fd, magic))
                 return VA_STATUS_ERROR_OPERATION_FAILED;
+            PRINTF();
             if (!va_drm_is_authenticated(drm_state->fd))
                 return VA_STATUS_ERROR_OPERATION_FAILED;
+            PRINTF();
         }
     }
-
+#endif
+    PRINTF();
     drm_state->auth_type = VA_DRM_AUTH_CUSTOM;
 
+    PRINTF();
     return VA_STATUS_SUCCESS;
 }
 

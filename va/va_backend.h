@@ -31,6 +31,7 @@
 
 #include <va/va.h>
 #include <linux/videodev2.h>
+#define PRINTF(format, ...)  fprintf(stderr, "libva info %s, %s %d" format "\n", __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 typedef struct VADriverContext *VADriverContextP;
 typedef struct VADisplayContext *VADisplayContextP;

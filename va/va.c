@@ -190,6 +190,7 @@ static VAStatus va_getDriverName(VADisplay dpy, char **driver_name)
 {
     VADisplayContextP pDisplayContext = (VADisplayContextP)dpy;
 
+    PRINTF();
     return pDisplayContext->vaGetDriverName(pDisplayContext, driver_name);
 }
 
@@ -200,7 +201,8 @@ static VAStatus va_openDriver(VADisplay dpy, char *driver_name)
     char *search_path = NULL;
     char *saveptr;
     char *driver_dir;
-    
+
+    PRINTF();
     if (geteuid() == getuid())
         /* don't allow setuid apps to use LIBVA_DRIVERS_PATH */
         search_path = getenv("LIBVA_DRIVERS_PATH");
@@ -456,8 +458,9 @@ VAStatus vaInitialize (
 
     va_FoolInit(dpy);
 
-    va_infoMessage("VA-API version %s\n", VA_VERSION_S);
+    va_infoMessage("XX VA-API version %s\n", VA_VERSION_S);
 
+    PRINTF();
     vaStatus = va_getDriverName(dpy, &driver_name);
     va_infoMessage("va_getDriverName() returns %d\n", vaStatus);
 
@@ -473,7 +476,9 @@ VAStatus vaInitialize (
         va_infoMessage("User requested driver '%s'\n", driver_name);
     }
 
+    PRINTF();
     if ((VA_STATUS_SUCCESS == vaStatus) && (driver_name != NULL)) {
+        PRINTF();
         vaStatus = va_openDriver(dpy, driver_name);
         va_infoMessage("va_openDriver() returns %d\n", vaStatus);
 
