@@ -80,6 +80,7 @@ static VAStatus va_DRI2GetDriverName (
 {
     VADriverContextP ctx = pDisplayContext->pDriverContext;
 
+    PRINTF();
     if (!isDRI2Connected(ctx, driver_name))
         return VA_STATUS_ERROR_UNKNOWN;
 
@@ -134,16 +135,18 @@ static VAStatus va_DisplayContextGetDriverName (
 {
     VAStatus vaStatus;
 
+    PRINTF();
     if (driver_name)
 	*driver_name = NULL;
     else
         return VA_STATUS_ERROR_UNKNOWN;
-    
+    PRINTF();
     vaStatus = va_DRI2GetDriverName(pDisplayContext, driver_name);
     if (vaStatus != VA_STATUS_SUCCESS)
         vaStatus = va_NVCTRL_GetDriverName(pDisplayContext, driver_name);
     if (vaStatus != VA_STATUS_SUCCESS)
         vaStatus = va_FGLRX_GetDriverName(pDisplayContext, driver_name);
+    PRINTF();
     return vaStatus;
 }
 

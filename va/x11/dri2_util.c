@@ -184,30 +184,38 @@ isDRI2Connected(VADriverContextP ctx, char **driver_name)
     *driver_name = NULL;
     dri_state->base.fd = -1;
     dri_state->base.auth_type = VA_NONE;
+    PRINTF();
     if (!VA_DRI2QueryExtension(ctx->native_dpy, &event_base, &error_base))
         goto err_out;
 
+    PRINTF();
     if (!VA_DRI2QueryVersion(ctx->native_dpy, &major, &minor))
         goto err_out;
 
 
+    PRINTF();
     if (!VA_DRI2Connect(ctx->native_dpy, RootWindow(ctx->native_dpy, ctx->x11_screen),
                      driver_name, &device_name))
         goto err_out;
 
+    PRINTF();
     dri_state->base.fd = open(device_name, O_RDWR);
     assert(dri_state->base.fd >= 0);
+    PRINTF();
 
     if (dri_state->base.fd < 0)
         goto err_out;
 
+    PRINTF();
     if (drmGetMagic(dri_state->base.fd, &magic))
         goto err_out;
 
+    PRINTF();
     if (!VA_DRI2Authenticate(ctx->native_dpy, RootWindow(ctx->native_dpy, ctx->x11_screen),
                           magic))
         goto err_out;
 
+    PRINTF();
     dri_state->base.auth_type = VA_DRI2;
     dri_state->createDrawable = dri2CreateDrawable;
     dri_state->destroyDrawable = dri2DestroyDrawable;
@@ -219,6 +227,7 @@ isDRI2Connected(VADriverContextP ctx, char **driver_name)
     if (device_name)
         Xfree(device_name);
 
+    PRINTF();
     return True;
 
 err_out:
