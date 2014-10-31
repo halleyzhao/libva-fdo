@@ -88,9 +88,12 @@ VA_DRM_IsRenderNodeFd(int fd)
     const char *name;
 
     /* Check by device node */
-    if (fstat(fd, &st) == 0)
+    if (fstat(fd, &st) == 0) {
+        PRINTF();
         return S_ISCHR(st.st_mode) && (st.st_rdev & 0x80);
+    }
 
+    PRINTF();
     /* Check by device name */
     name = drmGetDeviceNameFromFd(fd);
     if (name)

@@ -40,6 +40,10 @@
 #include "va_dri2str.h"
 #include "va_dri2tokens.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#define PRINTF(format, ...)  fprintf(stderr, "libva info %s, %s %d" format "\n", __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
+
 #ifndef DRI2DriverDRI
 #define DRI2DriverDRI 0
 #endif
@@ -88,14 +92,18 @@ VA_DRI2Error(Display *dpy, xError *err, XExtCodes *codes, int *ret_code)
 
 Bool VA_DRI2QueryExtension(Display *dpy, int *eventBase, int *errorBase)
 {
+    PRINTF();
     XExtDisplayInfo *info = DRI2FindDisplay(dpy);
 
+    PRINTF();
     if (XextHasExtension(info)) {
 	*eventBase = info->codes->first_event;
 	*errorBase = info->codes->first_error;
+    PRINTF();
 	return True;
     }
 
+    PRINTF();
     return False;
 }
 
