@@ -247,6 +247,7 @@ VAStatus vaPutSurface (
                destx, desty, destw, desth,
                cliprects, number_cliprects, flags );
   
+  fprintf(stderr, "vaPutSurface surface=0x%x, draw=0x%x\n", surface, draw);
   return ctx->vtable->vaPutSurface( ctx, surface, (void *)draw, srcx, srcy, srcw, srch,
                                    destx, desty, destw, desth,
                                    cliprects, number_cliprects, flags );
